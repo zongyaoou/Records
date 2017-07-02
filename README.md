@@ -24,8 +24,15 @@ build spark2.1 with jupyter 4.3 on ubuntu16.04
     #added Anaconda3 env
     export PATH="/home/lancelot/Software/anaconda3/bin:$PATH"
 
-## 安装toree  
-toree是连接spark与jupyter的一个中间人,是本文的重要所在;  
+## 安装toree
+toree是连接spark与jupyter的一个中间人,是本文的重要所在;  
+
+如果不用scala或者sparkSQL或者sparkR的话,如下也可以基于pyspark使用spark,而不用去管toree;   
+
+    export PYSPARK_DRIVER_PYTHON=IPYTHON
+    export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+    pyspark
+    
 由于pypi上的是toree0.1.0版本,只支持spark1.6,所以这里不直接pip install了;  
 去toree的git上,最后会说明这个问题,好好阅读他的readme.md文档很重要,特别是最后Version部分;
 然后还是pip大法好:  
