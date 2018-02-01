@@ -10,10 +10,10 @@ build spark2.1 with jupyter 4.3 on ubuntu16.04
 
 ## 安装jdk-1.8 , anaconda3-4.3 , spark-2.1
 ### 安装好后记得配置全局环境变量
-编辑:/etc/profile , 最后加入以下(路径得自己调整,software是我自己建的目录) ; 
-说明:/etc/profile对所有用户(除ROOT用户外)有效,而每个用户(包括ROOT用户)单独的配置文件是 ~/.bashrc;
-环境变量的机制:开机的时候 , 所有人(除ROOT用户)都会读取一遍/etc/profile设置环境变量 , 而每次启动终端时都会读取一次个人的bashrc文件(root用户也是);
-所以要想对所有人都生效(包括ROOT) , 就得在/etc/profile中配置 , 并且在root用户的~/.bashrc文件中最后一行加上 : source /etc/profile;
+编辑:/etc/profile , 最后加入以下(路径得自己调整,software是我自己建的目录);  
+说明:/etc/profile对所有用户(除ROOT用户外)有效,而每个用户(包括ROOT用户)单独的配置文件是 ~/.bashrc;  
+环境变量的机制:开机的时候 , 所有人(除ROOT用户)都会读取一遍/etc/profile设置环境变量 , 而每次启动终端时都会读取一次个人的bashrc文件(root用户也是);  
+所以要想对所有人都生效(包括ROOT) , 就得在/etc/profile中配置 , 并且在root用户的~/.bashrc文件中最后一行加上 : source /etc/profile;  
 
     #added jdk env
     export JAVA_HOME=/home/lancelot/Software/jdk
