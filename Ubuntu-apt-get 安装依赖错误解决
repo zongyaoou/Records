@@ -1,0 +1,16 @@
+经常遇到这样的错误: 
+下列软件包有未满足的依赖关系：
+gnome-core-devel : 依赖: gnome-platform-devel (= 1:3.8+4ubuntu3) 但是它将不会被安装
+依赖: libatspi2.0-dev (>= 2.4) 但是它将不会被安装
+依赖: libatkmm-1.6-dev (>= 2.4) 但是它将不会被安装
+依赖: libbrasero-media3-dev (>= 3.4) 但是它将不会被安装
+依赖: libcaribou-dev (>= 0.4) 但是它将不会被安装
+依赖: libclutter-gst-dev (>= 1.5.4) 但是它将不会被安装
+依赖: libdconf-dev (>= 0.12) 但是它将不会被安装
+
+原因:
+在安装完ubuntu的时候手贱设置了下software&update中 , 
+在 update 中 把 important security updates 和 Recommended updates 都去掉了 , 所以会报错 ; 
+
+解决: 
+重新勾选上 , 在 sudo apt-get update 即可; 
