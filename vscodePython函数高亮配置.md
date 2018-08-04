@@ -5,7 +5,7 @@
 参考 https://github.com/MagicStack/MagicPython/issues/96 之后得到得解决方案 : 
 
 修改 ...\Microsoft VS Code\resources\app\extensions\theme-monokai\themes 下的 monokai-color-theme.json 文件 ,   
-添加 :  
+在tokenColors节点下添加 :  
 		{
 			"name": "User-define Function name",
 			"scope": "meta.function-call.generic.python",
