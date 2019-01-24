@@ -56,5 +56,42 @@ toree是连接spark与jupyter的一个中间人,是本文的重要所在;
 最好是在宿主机上用下载工具下载sh文件或者tar文件或者whl文件,拉到客户机上安装;
 
 
+## 设置开机自启动(以PG为例) 
+systemctl .service 文件编写: https://blog.csdn.net/yuesichiu/article/details/51485147  
+要注意的是 , 执行/重启/停止 命令 , 都要用绝对路径 ; 否则报错 ; 
+### 栗子: 
+[Unit]
+Description=PostgreSQL 11 database server
+Documentation=https://www.postgresql.org/docs/11/static/
+After=syslog.target
+After=network.target
+
+[Service]
+Type=notify
+User=postgres
+Group=postgres
+Environment=PGDATA=/data/PostgreSQL/11.1/pgdata
+OOMScoreAdjust=-1000
+Environment=PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
+Environment=PG_OOM_ADJUST_VALUE=0
+Environment=LD_LIBRARY_PATH=/data/PostgreSQL/11.1/lib:/apps/oracle/instantclient
+ExecStart=/data/PostgreSQL/11.1/bin/pg_ctl start -D /data/PostgreSQL/11.1/pgdata -l /data/PostgreSQL/11.1/profile
+ExecReload=/data/PostgreSQL/11.1/bin/pg_ctl reload -D /data/PostgreSQL/11.1/pgdata -l /data/PostgreSQL/11.1/profile
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+
+
+
+
+
+
 可以愉快地开始spark了;
 
