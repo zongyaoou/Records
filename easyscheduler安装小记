@@ -1,0 +1,85 @@
+easyscheduler的安装 , 包含了 zookeeper , hadoop的安装 , 集群的理解 , 在此记录下过程 ; 
+
+
+
+前端安装:配置端口 , 服务器IP地址 ; 需要sudo权限 ; http://localhost:12344 
+        api服务器地址 , 如果是集群的话 , 就是后端安装时install.sh设定的api-server节点地址 ; 
+后端安装:
+    部署用户要有sudo权限 , 修改/etc/sudoers , 并且添加NOPASSWORD:ALL; 
+    ssh免密登录: 检查ssh服务是否启用 ,apt-get install ssh openssh-server ;
+                记住:把A的公钥放到B上:ssh-copy-id -i ~/.ssh/id_rsa.pub es@HOST_B , 则可以从A免密SSH登录到B上 ; 
+                检查linux自身用户权限配置问题及 ; 检查是否登录用户创建 ; 
+                配好公钥私钥 , 还是要密码 : .ssh文件夹权限700 , authorized文件权限600 ; 
+                报错误: sign_and_send_pubkey: signing failed: agent refused operation 
+                解决: eval "$(ssh-agent -s)"ssh-add 
+    mysql安装:用户创建以及backend数据库数据导入 ; 
+        如果是集群记得开启远程连接:https://blog.csdn.net/qq_26365837/article/details/88020873  
+        centos7默认是安装maridb , 按照教程替代掉 : https://blog.csdn.net/qq_42572322/article/details/80999634 
+        密码太简单报错: https://blog.csdn.net/kuluzs/article/details/51924374 
+    zookeeper安装 ; 
+        使用3.4.14  3.5.5版本包不完整 ;  
+        # ZooKeeper Env  
+        export ZOOKEEPER_HOME=/home/chuck/Downloads/zookeeper 
+        export PATH=$PATH:$ZOOKEEPER_HOME/bin 
+        集群文件配置 , 需要一模一样 ; 
+        每个节点需要在data目录下面新建一个myid文件标识自己的server.id 
+        各节点host名字需配置成一致 ; 
+    conf/env/.escheduler_env.sh文件修改 , 因为是隐藏文件 , 所以vim时要注意 , 别以为要自己创建 ; 
+    每次重新安装都要修改csdata0上的PYTHON_HOME , 因为安装用户不同 , 当时csdata0是用chuck用户安装的 ;  
+    install文件修改 ; 
+        installpath需要修改 , 不能和安装文件同一个路径 ; 
+        自动部署脚本要用bash运行 , 而不是sh ; 
+        错误： shell脚本中含有source命令运行时提示 source: not found : https://blog.csdn.net/buynow123/article/details/51774018 
+        hostname全部改为本机名称 ; 
+        hdfs系统的根路径 , 并不等同于 linux 系统的根路径 ;  
+        安装程序无法识别JAVA_HOME :  在文件 escheduler-daemon.sh 写死export JAVA_HOME=xxx ; 不管是安装文件夹或者是installpath的文件夹 ; 
+    以上安装完 , 但是UI一直进不去: 
+        官网FAQ:https://analysys.github.io/easyscheduler_docs_cn/EasyScheduler-FAQ.html  Q：UI 不能正常登陆访问 
+    集群安装:
+        各个节点上的/bin下的几个文件 , 都需要写死installpath和javahome?(如果配置了.escheduler_env的话就不用?) ;  
+        installpath=/home/postgres/Software/escheduler
+        java_home=/home/postgres/Software/jdk1.8.0_131
+        VIM文本替换: %s#$installPath#/home/postgres/Software/escheduler#g
+                替换所有行所有 $installPath 为/home/postgres/Software/escheduler
+    资源中心:   
+
+        安装hadoop ; 
+        hdfs系统的根路径/escheduler , 在install.sh中要设置 , 并且在hdfs系统内要预先创建一个文件夹 /escheduler/postgres/resources ; 
+            文档有时候是错的 , 虽然文档说会自动创建 , 但是实际不会!   -- 花了3天时间才弄懂 HDFS是一个'文件系统'的含义(有自己的用户/权限/文件系统) ;  
+
+
+
+hadoop安装: https://blog.csdn.net/nenguou04/article/details/88770031 
+    安装目录:/hdfs-escheduler/hadoop-3.1.2 
+    涉及hostname的 , 能写ip地址就不要写hostname ; 
+    HDFS是一个系统 , 等同于一个linux里面再装一个linux , 有自己的文件权限管理 ; 
+    ssh免密登录;JDK安装配置 ; hadoop-env.sh 配置JAVA_HOME ; 
+    core-site.xml: namenode是master ; 使用了9000端口 ;  
+    hdfs-site.xml: 副本数量怎么定? 
+    yarn-site.xml: ResourceManager = csdata0 ; 
+    start-dfs.sh: 一般为ROOT的USER都替换为postgres , 但是 hdfs 和 yarn 的user是要新建user? 
+    export HADOOP_HOME=/hdfs-escheduler/hadoop-3.1.2
+    export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin  
+    localhost:9870 访问成功 ; 
+
+装完HADOOP还要:
+    将install.sh的相关配置改 ; 
+    将conf/env/.escheduler_env.sh相关变量hadoop_home等更改 ; 
+    需要将core-site.xml和hdfs-site.xml放到escheduler/conf目录下 ; 
+
+
+
+开机启动总结: 
+csdata0 : 
+    1.openvpn ; 
+    2.redis-server & airflow webserver ; 
+    3.airflow worker & airflow scheduler ; 
+    4.(zookeeper) zkServer.sh start ; 
+    5.(hadoop) start-all.sh 
+    6.(easyscheduler) start-all.sh 
+    7.jupyter notebook (只9999,8887以及PG已默认启动) ; 
+csdata[1-3]:
+    1.openvpn ; sudo /usr/sbin/openvpn /home/postgres/Software/openvpn/VPN/csbi2/csbi2.ovpn &   
+    2.(zookeeper得逐个启动) zkServer.sh start ; 
+    3.(hadoop由csdata0调度启动) start-all.sh ; 
+    4.(easyscheduler由csdata0调度启动) start-all.sh ; 
