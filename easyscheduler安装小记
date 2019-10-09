@@ -67,6 +67,13 @@ hadoop安装: https://blog.csdn.net/nenguou04/article/details/88770031
     将conf/env/.escheduler_env.sh相关变量hadoop_home等更改 ; 
     需要将core-site.xml和hdfs-site.xml放到escheduler/conf目录下 ; 
 
+#解决上传稍微大点的文件卡住100%不动的问题 ; 
+如果使用的是nginx，设置上传大小
+编辑配置文件 vi /etc/nginx/nginx.conf
+在http项basic setting下添加配置 , 更改上传大小
+client_max_body_size 1024m;
+然后重启nginx服务:nginx -s reload
+
 
 
 开机启动总结: 
