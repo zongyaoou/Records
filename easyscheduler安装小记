@@ -75,6 +75,12 @@ client_max_body_size 1024m;
 然后重启nginx服务:nginx -s reload
 
 
+#easyscheduler 工作文件夹机制 ; 
+临时文件只要在 ./ 下生成就行 , 因为easyscheduler会在/tmp文件夹下新建一个文件夹作为当前工单流任务的工作文件夹 ; 
+并且他自己会有一个自动清理的机制 ; 
+就算easyscheduler 不自动清理 , linux系统也会自动清理 tmp文件夹 , 双重机制清理辣鸡 ; 
+
+
 
 开机启动总结: 
 csdata0 : 
