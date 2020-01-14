@@ -86,11 +86,26 @@ redis-cli shutdown
 
 
 
+#从1.1.0升级到1.2.0总结:
+1.后端升级相当于重新安装 , 不过之前的配置文件可以参考 ;
+2.HDFS的两个XML文件还是要放到lib里面 ; 
+3.mysql-connector要手动放到lib里面 ; 
+4.在start-all文件和stop-all文件的SSH命令上, 加上预先读取环境变量配置 : 
+        source $installPath/conf/env/.dolphinscheduler_env.sh ; 否则很可能会报找不到java;
+5.前端部署 , 用ngixn , 重新安装 , 然后确认 /etc/nginx/conf.d/ 下配置文件 , 访问地址端口 , 以及桥接的API-SERVER端口有没有错 , dis文件夹位置有没有错; 
+6.部署后端之前 , 先升级数据库 ; 
+7.后端install.sh文件的时候 , 到第五步经常卡住 , 此时可以直接修改install文件 , 跳过该步骤 , 前提是先把集群所有zk服务停掉 ; 
+8.install.sh执行完之后的自动开启服务 , 可能会因为没有预读环境变量文件 , 所以服务起不来 , 这时候手动执行一次在第4步修改命令之后的start-all文件启动服务;
+9.UI一直加载 , 首先检查zk服务是否都启动 , 再去查官网FAQ ; 
+
+
+
+
 开机启动总结: 
 csdata0 : 
-    1.openvpn ; 
-    2.redis-server & airflow webserver ; 
-    3.airflow worker & airflow scheduler ; 
+    1.openvpn ; (一般不用) 
+    2.redis-server ; airflow webserver ; 
+    3.airflow worker ; airflow scheduler ; 
     4.(zookeeper) zkServer.sh start ; 
     5.(hadoop) start-all.sh 
     6.(easyscheduler) start-all.sh 
