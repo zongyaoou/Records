@@ -110,13 +110,13 @@ csdata0 :
     1.openvpn ; (一般不用) 
     2.redis-server ; airflow webserver ; 
     3.airflow worker ; airflow scheduler ; 
-    4.(zookeeper) zkServer.sh start ; 
-    5.(hadoop) start-all.sh 
-    6.(easyscheduler) start-all.sh 
-    7.jupyter notebook (只9999,8887以及PG已默认启动) ; 
+    4.(zookeeper一般会自启动,检查下) zkServer.sh start ; 
+    5.(切换到hadoop目录sbin) start-all.sh 
+    6.(切换到dolphinscheduler目录bin) start-all.sh 
+    7.检查 jupyter notebook 8887 有无启动; 
 csdata[1-3]:
-    1.openvpn,配置文件序号得+1,如csdata1就用csbi2; 
+    1.openvpn,配置文件序号得+1,如csdata1就用csbi2; (一般不用)  
         sudo /usr/sbin/openvpn /home/postgres/Software/openvpn/VPN/csbi2/csbi2.ovpn &   
-    2.(zookeeper得逐个启动) zkServer.sh start ; 
+    2.(zookeeper得检查下) zkServer.sh start ; 
     3.(hadoop由csdata0调度启动) start-all.sh ; 
-    4.(easyscheduler由csdata0调度启动) start-all.sh ; 
+    4.(dolphinescheduler由csdata0调度启动) start-all.sh ; 
