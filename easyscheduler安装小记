@@ -28,7 +28,9 @@ easyscheduler的安装 , 包含了 zookeeper , hadoop的安装 , 集群的理解
         集群文件配置 , 需要一模一样 ; 
         每个节点需要在data目录下面新建一个myid文件标识自己的server.id 
         各节点host名字需配置成一致 ; 
-    conf/env/.escheduler_env.sh文件修改 , 因为是隐藏文件 , 所以vim时要注意 , 别以为要自己创建 ; 
+    conf/env/.dophine_scheduler_env.sh文件修改 , 因为是隐藏文件 , 所以vim时要注意 , 别以为要自己创建 ; 
+    ps: 这里得java_home , 使用jdk8通过 , 使用jdk13失败 , 可能是版本特性不兼容 , 所以每个集群里面我都安装了 jdk8和13 , 
+        系统环境变量/etc/profile使用了JDK13 , 而 dophine_scheduler的java_home在这个文件里面指定使用jdk8 ; 
     每次重新安装都要修改csdata0上的PYTHON_HOME , 因为安装用户不同 , 当时csdata0是用chuck用户安装的anaconda ;  
     install文件修改 ; 
         installpath需要修改 , 不能和安装文件同一个路径 ; 
