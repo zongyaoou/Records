@@ -2,6 +2,8 @@ easyscheduler的安装 , 包含了 zookeeper , hadoop的安装 , 集群的理解
 
 
 集群ssh管理: clush  , 具体参考 : https://www.cnblogs.com/kevingrace/p/6099205.html ; 
+        ps:发送命令如果包含自定义环境变量 , 先运行 source /ect/profile , 另外 , 对于 $ 要转义 ;
+        举例 : clush -g worker "source /etc/profile;echo \$JAVA_HOME"
 
 
 前端安装:配置端口 , 服务器IP地址 ; 需要sudo权限 ; http://localhost:12344 
