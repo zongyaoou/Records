@@ -1,6 +1,8 @@
 easyscheduler的安装 , 包含了 zookeeper , hadoop的安装 , 集群的理解 , 在此记录下过程 ; 
 
 
+集群ssh管理: clush  , 具体参考 : https://www.cnblogs.com/kevingrace/p/6099205.html ; 
+
 
 前端安装:配置端口 , 服务器IP地址 ; 需要sudo权限 ; http://localhost:12344 
         api服务器地址 , 如果是集群的话 , 就是后端安装时install.sh设定的api-server节点地址 ; 
