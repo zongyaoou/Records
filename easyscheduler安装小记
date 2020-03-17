@@ -67,7 +67,7 @@ hadoop安装: https://blog.csdn.net/nenguou04/article/details/88770031
     start-dfs.sh: 一般为ROOT的USER都替换为postgres , 但是 hdfs 和 yarn 的user是要新建user? 
     export HADOOP_HOME=/hdfs-escheduler/hadoop-3.1.2
     export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin  
-    localhost:9870 访问成功 ; 
+    localhost:9870 hdfs管理页面访问成功 ; localhost:8088 YARN任务监控页面访问成功; 
 
 装完HADOOP还要:
     将install.sh的相关配置改 ; 
