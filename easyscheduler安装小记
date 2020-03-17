@@ -62,8 +62,8 @@ hadoop安装: https://blog.csdn.net/nenguou04/article/details/88770031
     HDFS是一个系统 , 等同于一个linux里面再装一个linux , 有自己的文件权限管理 ; 
     ssh免密登录;JDK安装配置 ; hadoop-env.sh 配置JAVA_HOME ; 
     core-site.xml: namenode是master ; 使用了9000端口 ;  
-    hdfs-site.xml: 副本数量怎么定? 
-    yarn-site.xml: ResourceManager = csdata0 ; 
+    hdfs-site.xml: 副本数量怎么定? -- 一般取3 , 代表一个文件会存3份; 
+    yarn-site.xml: ResourceManager 的host改为 csdata0 的真实IP ; 
     start-dfs.sh: 一般为ROOT的USER都替换为postgres , 但是 hdfs 和 yarn 的user是要新建user? 
     export HADOOP_HOME=/hdfs-escheduler/hadoop-3.1.2
     export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin  
